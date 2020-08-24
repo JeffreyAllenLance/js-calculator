@@ -1,42 +1,103 @@
-main {
-  height: 100vh;
+body {
+  margin: 0;
+  padding: 0;
 }
 
-#container {
-  height: 100%;
+main {
+  height: 100vh;
+  background-image: linear-gradient(to right, rgb(46, 155, 131) , rgb(6, 57, 105));
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+#container {
+  height: 630px;
+  width: 400px;
+  box-shadow: 10px 15px 5px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
 }
 
 #calculator {
-  height: 550px;
-  width: 420px;
-  margin: auto;
+  box-sizing: border-box;
+  background-color: rgb(194, 194, 194);
+  border-radius: 0 0 15px 15px;
+  border-top: 8px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  height: 500px;
+  width: 400px;
+  margin: 0 auto auto auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 120px repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
   grid-template-areas:
-      "display display display display" 
-      "AC pos-neg percent divide"
-      "seven eight nine multiply"
-      "four five six subtract"
-      "one two three add"
-      "zero zero decimal equals";
+      "AC C pos-neg percent"
+      "seven eight nine divide"
+      "four five six multiply"
+      "one two three subtract"
+      "zero decimal equals add";
+  gap: 10px;
 }
 
 #display {
-  background-color: black;
-  grid-area: display;
+  box-sizing: border-box;
+  padding-right: 6px;
+  padding-bottom: 15px;
+  width: 400px;
+  height: 130px;
+  margin: auto auto 0 auto;
+  background-color: rgb(15, 13, 48);
   color: white;
-  font-size: 4em;
+  font-size: 3.4em;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-end;
+  border-radius: 15px 15px 0 0;
+}
+
+button {
+  border: none;
+  font-size: 1.4em;
+  border-radius: 4px;
+  transition-duration: 0.4s, 0.02s;
+  transition-property: background-color, transform;
+  box-shadow: 2px 3px 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+button:hover:enabled {
+  background-color: rgb(240, 240, 240);
+  color: black;
+}
+
+button:active:enabled {
+  transform: translateY(3px);
+}
+
+button:disabled {
+  opacity: 0.6;
+}
+
+.digits, .eq-dec {
+  background-color: rgb(95, 95, 95);
+  color: white;
+}
+
+.operators {
+  background-color: rgb(46, 155, 131);
+}
+
+.controls {
+  background-color: rgb(46, 70, 155);
+  color: white; 
 }
 
 #AC {
   grid-area: AC;
+}
+
+#backspace {
+  grid-area: C;
 }
 
 #pos-neg {

@@ -51,8 +51,8 @@ function operate (operator, num1, num2) {
   }
 }
 
-function displayNum() {
-  // If displayRefersh is set start new number
+function displayNumClick() {
+  // If displayRefresh is set start new number
   // otherwise, concatenate up to 9 digits
   if (displayRefresh) {
     display.textContent = this.textContent;
@@ -61,6 +61,32 @@ function displayNum() {
     display.textContent = `${currentDisplay}${this.textContent}`;
   }
   currentDisplay = display.textContent;
+}
+
+function displayNumPress(num) {
+  if (displayRefresh) {
+    display.textContent = num;
+    displayRefresh = false;
+  } else if (currentDisplay.length < 11) {
+    display.textContent = `${currentDisplay}${num}`;
+  }
+  currentDisplay = display.textContent;
+}
+
+function backspace() {
+  if (currentDisplay != 0){
+    if (currentDisplay.length != 1) {
+      if (currentDisplay.substr(currentDisplay.length - 1) == '.') {
+        decimalBtn.disabled = false;
+      }
+      display.textContent = currentDisplay.slice(0, -1);
+      currentDisplay = display.textContent;
+    } else {
+      display.textContent = 0;
+      currentDisplay = display.textContent;
+      displayRefresh = true;
+    }
+  }
 }
 
 function clear() {
@@ -102,9 +128,10 @@ function evaluate() {
     // Display precision according to large or small number
     if (`${result}`.length > 10) {
       if (result >= 1e10) {
-        result.toPrecision(2)
+        result = result.toPrecision(2)
       } else {
-        result = Math.round((result + Number.EPSILON) * 1e8) / 1e8;
+        // result = Math.round((result + Number.EPSILON) * 1e8) / 1e8;
+        result = `${result.toFixed(9)}`;
       }
     }
     display.textContent = result;
@@ -117,10 +144,25 @@ function evaluate() {
   }
 }
 
+function keyPress(e) {
+  let key = `${e.code}`;
+  if (key.startsWith('Digit')) {
+    let num = key.slice(5);
+    displayNumPress(num);
+  } else if (key == 'Backspace') {
+    backspace();
+  } else if (key == 'Equal') {
+    evaluate();
+  } else if (key == 'Period' && !decimalBtn.disabled) {
+    displayNumPress('.');
+    decimalPress();
+  }
+}
+
 // Get array of digit buttons
 const digits = document.querySelectorAll(".digits");
 for (const digit of digits) {
-  digit.addEventListener('click', displayNum);
+  digit.addEventListener('click', displayNumClick);
 }
 
 // Get array of operator buttons
@@ -132,15 +174,20 @@ for (const op of operators) {
 const equalBtn = document.querySelector('#equals');
 equalBtn.addEventListener('click', evaluate);
 
-const clearBtn = document.querySelector('#AC');
-clearBtn.addEventListener('click', clear);
+const allClearBtn = document.querySelector('#AC');
+allClearBtn.addEventListener('click', clear);
+
+const clearBtn = document.querySelector('#backspace');
+clearBtn.addEventListener('click', backspace);
 
 const decimalBtn = document.querySelector('#decimal');
 decimalBtn.addEventListener('click', decimalPress);
-decimalBtn.addEventListener('click', displayNum);
+decimalBtn.addEventListener('click', displayNumClick);
 
 const percentBtn = document.querySelector('#percent');
 percentBtn.addEventListener('click', percent);
 
 const posNegBtn = document.querySelector('#pos-neg');
 posNegBtn.addEventListener('click', posNeg);
+
+document.addEventListener('keydown', keyPress);

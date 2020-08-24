@@ -26,8 +26,9 @@ function percent() {
   // Divide by 100
   let num = Number(currentDisplay);
   num /= 100;
-  display.textContent = `${num}`;
-  currentDisplay = `${num}`;
+  num = num.toFixed(9) / 1;
+  display.textContent = num;
+  currentDisplay = num;
   decimalBtn.disabled = true;
 }
 
@@ -105,8 +106,6 @@ function decimalPress() {
 }
 
 function opSelect() {
-  operator = this.textContent;
-  decimalBtn.disabled = false;
   // Store numbers if none exist
   // Evaluate after second number
   if (!firstNum) {
@@ -115,6 +114,8 @@ function opSelect() {
     secondNum = Number(currentDisplay);
     evaluate();
   }
+  operator = this.textContent;
+  decimalBtn.disabled = false;
   displayRefresh = true;
 }
 
@@ -125,6 +126,7 @@ function evaluate() {
       secondNum = Number(display.textContent);
     }
     result = operate(operator, firstNum, secondNum);
+    firstNum = result;
     // Display precision according to large or small number
     if (`${result}`.length > 10) {
       if (result >= 1e10) {
@@ -137,7 +139,6 @@ function evaluate() {
     display.textContent = result;
     currentDisplay = result;
     // Clean slate
-    firstNum = null;
     secondNum = null;
     operator = null;
     decimalBtn.disabled = false;

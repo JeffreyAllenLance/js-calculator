@@ -87,6 +87,10 @@ button:disabled {
   background-color: rgb(46, 155, 131);
 }
 
+.percent {
+  background-color: rgb(46, 155, 131);
+}
+
 .controls {
   background-color: rgb(46, 70, 155);
   color: white; 

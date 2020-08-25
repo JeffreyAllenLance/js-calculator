@@ -53,40 +53,32 @@ function operate (operator, num1, num2) {
 }
 
 function displayNumClick() {
-  // If displayRefresh is set start new number
-  // otherwise, concatenate up to 9 digits
-  if (displayRefresh || display.textContent == '0') {
-    display.textContent = this.textContent;
-    displayRefresh = false;
-  } else if (currentDisplay.length < 10) {
-    display.textContent = `${currentDisplay}${this.textContent}`;
-  }
-  currentDisplay = display.textContent;
+  displayNumPress(this.textContent);
 }
 
 function displayNumPress(num) {
-  if (displayRefresh || display.textContent == '0') {
+  // If display refreshed or displaying 0, replace content
+  // otherwise concatenate
+  if ((displayRefresh || display.textContent == '0') && num != '.') {
     display.textContent = num;
-    displayRefresh = false;
   } else if (currentDisplay.length < 11) {
     display.textContent = `${currentDisplay}${num}`;
   }
   currentDisplay = display.textContent;
+  displayRefresh = false;
 }
 
 function backspace() {
-  if (currentDisplay != 0){
-    if (currentDisplay.length != 1) {
-      if (currentDisplay.substr(currentDisplay.length - 1) == '.') {
-        decimalBtn.disabled = false;
-      }
-      display.textContent = currentDisplay.slice(0, -1);
-      currentDisplay = display.textContent;
-    } else {
-      display.textContent = 0;
-      currentDisplay = display.textContent;
-      displayRefresh = true;
+  if (currentDisplay.length != 1) {
+    if (currentDisplay.substr(currentDisplay.length - 1) == '.') {
+      decimalBtn.disabled = false;
     }
+    display.textContent = currentDisplay.slice(0, -1);
+    currentDisplay = display.textContent;
+  } else {
+    display.textContent = 0;
+    currentDisplay = display.textContent;
+    displayRefresh = true;
   }
 }
 
@@ -129,7 +121,7 @@ function evaluate() {
     result = operate(operator, firstNum, secondNum);
     firstNum = result;
     result = result.toString();
-    // Display precision according to large or small number
+    // Display only 10 digits of number
     if (result.length > 10) {
       result = result.slice(0, 11);
     }

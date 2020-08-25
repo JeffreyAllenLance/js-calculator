@@ -59,8 +59,12 @@ function displayNumClick() {
 function displayNumPress(num) {
   // If display refreshed or displaying 0, replace content
   // otherwise concatenate
-  if ((displayRefresh || display.textContent == '0') && num != '.') {
-    display.textContent = num;
+  if ((displayRefresh || display.textContent == '0') && (num != '.' || operator)) {
+    if (num == '.') {
+      display.textContent = `0${num}`;
+    } else {
+      display.textContent = num;
+    }
   } else if (currentDisplay.length < 11) {
     display.textContent = `${currentDisplay}${num}`;
   }

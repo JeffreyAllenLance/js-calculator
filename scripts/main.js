@@ -141,7 +141,11 @@ function evaluate() {
     // Clean slate
     secondNum = null;
     operator = null;
-    decimalBtn.disabled = false;
+    if (result.includes('.')) {
+      decimalBtn.disabled = true;
+    } else {
+      decimalBtn.disabled = false;
+    }
   }
 }
 

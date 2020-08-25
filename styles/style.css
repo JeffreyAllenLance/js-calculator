@@ -68,10 +68,12 @@ button {
 button:hover:enabled {
   background-color: rgb(240, 240, 240);
   color: black;
+  cursor: pointer;
 }
 
 button:active:enabled {
   transform: translateY(3px);
+  cursor: pointer;
 }
 
 button:disabled {

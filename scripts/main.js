@@ -55,7 +55,7 @@ function operate (operator, num1, num2) {
 function displayNumClick() {
   // If displayRefresh is set start new number
   // otherwise, concatenate up to 9 digits
-  if (displayRefresh) {
+  if (displayRefresh || display.textContent == '0') {
     display.textContent = this.textContent;
     displayRefresh = false;
   } else if (currentDisplay.length < 10) {
@@ -65,7 +65,7 @@ function displayNumClick() {
 }
 
 function displayNumPress(num) {
-  if (displayRefresh) {
+  if (displayRefresh || display.textContent == '0') {
     display.textContent = num;
     displayRefresh = false;
   } else if (currentDisplay.length < 11) {
@@ -102,6 +102,7 @@ function clear() {
 }
 
 function decimalPress() {
+  displayNumPress('.');
   decimalBtn.disabled = true;
 }
 
@@ -127,9 +128,13 @@ function evaluate() {
     }
     result = operate(operator, firstNum, secondNum);
     firstNum = result;
+    result = result.toString();
     // Display precision according to large or small number
-    if (`${result}`.length > 10) {
-      result = result.toString().slice(0, 11);
+    if (result.length > 10) {
+      result = result.slice(0, 11);
+    }
+    if (result.substr(result.length - 1) == '.') {
+      result = result.slice(0,10);
     }
     display.textContent = result;
     currentDisplay = result;
@@ -150,7 +155,6 @@ function keyPress(e) {
   } else if (key == 'Equal') {
     evaluate();
   } else if (key == 'Period' && !decimalBtn.disabled) {
-    displayNumPress('.');
     decimalPress();
   }
 }
@@ -178,7 +182,6 @@ clearBtn.addEventListener('click', backspace);
 
 const decimalBtn = document.querySelector('#decimal');
 decimalBtn.addEventListener('click', decimalPress);
-decimalBtn.addEventListener('click', displayNumClick);
 
 const percentBtn = document.querySelector('#percent');
 percentBtn.addEventListener('click', percent);

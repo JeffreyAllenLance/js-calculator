@@ -58,6 +58,7 @@ main {
 
 button {
   border: none;
+  outline: none;
   font-size: 1.4em;
   border-radius: 4px;
   transition-duration: 0.4s, 0.02s;
@@ -73,7 +74,6 @@ button:hover:enabled {
 
 button:active:enabled {
   transform: translateY(3px);
-  cursor: pointer;
 }
 
 button:disabled {
